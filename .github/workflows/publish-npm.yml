@@ -1,0 +1,39 @@
+name: Publish to npm (reusable)
+on:
+  workflow_call:
+    inputs:
+      package-path:
+        description: 'Path to the package directory'
+        required: false
+        type: string
+        default: '.'
+      tag:
+        description: 'npm dist-tag (latest, next, beta)'
+        required: false
+        type: string
+        default: 'latest'
+    secrets:
+      NPM_TOKEN:
+        required: true
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: ${{ inputs.package-path }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ${{ inputs.package-path }}/package-lock.json
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm publish --provenance --access public --tag ${{ inputs.tag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

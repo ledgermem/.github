@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: mailto:security@proofly.dev
+    about: Email us privately. Do not open a public issue.
+  - name: Docs
+    url: https://proofly.dev/docs
+    about: Search the documentation first.
+  - name: Status
+    url: https://status.proofly.dev
+    about: Check incident status before filing an outage report.

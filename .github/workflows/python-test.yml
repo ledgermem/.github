@@ -1,0 +1,51 @@
+name: Python test (reusable)
+on:
+  workflow_call:
+    inputs:
+      python-versions:
+        description: 'JSON array of Python versions to test against'
+        required: false
+        type: string
+        default: '["3.10", "3.11", "3.12"]'
+      working-directory:
+        description: 'Path to the package'
+        required: false
+        type: string
+        default: '.'
+      run-mypy:
+        description: 'Run mypy after pytest'
+        required: false
+        type: boolean
+        default: true
+      run-ruff:
+        description: 'Run ruff before tests'
+        required: false
+        type: boolean
+        default: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ${{ fromJson(inputs.python-versions) }}
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Ruff
+        if: inputs.run-ruff
+        run: ruff check .
+      - name: Mypy
+        if: inputs.run-mypy
+        run: mypy src
+      - name: Pytest
+        run: pytest -q
