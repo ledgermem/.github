@@ -26,6 +26,12 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Cloudflare Pages publishes via wrangler-action using its own API token,
+    # so this job has no need for any GitHub token scope. Narrow to
+    # `contents: read` so the inherited GITHUB_TOKEN cannot be abused by a
+    # compromised build script to push back to the repo.
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ${{ inputs.working-directory }}

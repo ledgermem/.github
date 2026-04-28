@@ -20,6 +20,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # Reusable workflows inherit the caller's GITHUB_TOKEN permissions when
+    # `permissions:` is omitted, which can be `write-all` on legacy repos.
+    # A test job only needs to read code — narrow per-job to prevent a
+    # malicious dependency from abusing the token at install/test time.
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
