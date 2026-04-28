@@ -37,10 +37,16 @@ jobs:
           cache: npm
           cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
       - run: npm ci
-      - run: npm run ${{ inputs.build-script }}
+      - name: Build docs
+        env:
+          BUILD_SCRIPT: ${{ inputs.build-script }}
+        run: npm run "$BUILD_SCRIPT"
       - name: Publish to Cloudflare Pages
+        env:
+          OUTPUT_DIRECTORY: ${{ inputs.output-directory }}
+          PROJECT_NAME: ${{ inputs.project-name }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy ${{ inputs.output-directory }} --project-name=${{ inputs.project-name }}
+          command: pages deploy "$OUTPUT_DIRECTORY" --project-name="$PROJECT_NAME"

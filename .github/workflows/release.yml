@@ -38,7 +38,9 @@ jobs:
           cache: npm
           cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
       - run: npm ci
-      - run: npm run ${{ inputs.release-command }}
+      - name: Run release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          RELEASE_COMMAND: ${{ inputs.release-command }}
+        run: npm run "$RELEASE_COMMAND"
