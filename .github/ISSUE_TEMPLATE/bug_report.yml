@@ -11,7 +11,7 @@ body:
     id: version
     attributes:
       label: Package / SDK version
-      placeholder: e.g. @getmnemo/memory@0.1.3
+      placeholder: e.g. @mnemo/memory@0.1.3
     validations:
       required: true
   - type: input
