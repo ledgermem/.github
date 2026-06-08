@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: mailto:security@getmnemo.xyz
+    url: mailto:security@mnemohq.com
     about: Email us privately. Do not open a public issue.
   - name: Docs
-    url: https://getmnemo.xyz/docs
+    url: https://mnemohq.com/docs
     about: Search the documentation first.
   - name: Status
-    url: https://status.getmnemo.xyz
+    url: https://status.mnemohq.com
     about: Check incident status before filing an outage report.

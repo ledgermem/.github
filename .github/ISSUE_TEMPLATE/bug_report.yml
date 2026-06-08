@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Thanks for taking the time to file a bug. Please fill out the fields below.
-        For security issues, email security@getmnemo.xyz instead — do not file a public issue.
+        For security issues, email security@mnemohq.com instead — do not file a public issue.
   - type: input
     id: version
     attributes:
